@@ -14,13 +14,25 @@ class MyList(object):
         return obj
 
     def __len__(self):
+        """
+        长度
+        :return:
+        """
         return self.size
 
     def __iter__(self):
+        """
+        返回遍历的对象
+        :return:
+        """
         self._iterIndex = 0
         return self
 
     def __next__(self):
+        """
+        遍历下一次
+        :return:
+        """
         if self._iterIndex >= len(self.container):
             raise StopIteration()
 

@@ -4,11 +4,11 @@ class User(object):
         self.userName = user_name
         self.age = age
 
-    # def __repr__(self):
-    #     return 'User_Repr[userId=%s, userName=%s, age=%d]' % (self.userId, self.userName, self.age)
+    def __repr__(self):
+        return 'User_Repr[userId=%s, userName=%s, age=%d]' % (self.userId, self.userName, self.age)
 
-    # def __str__(self):
-    #     return 'User_Str[userId=%s, userName=%s, age=%d]' % (self.userId, self.userName, self.age)
+    def __str__(self):
+        return 'User_Str[userId=%s, userName=%s, age=%d]' % (self.userId, self.userName, self.age)
 
 if __name__ == '__main__':
     u = User(1, 'suncht', 32)
