@@ -71,6 +71,53 @@ class Money(object):
         _yuan, _jiao, _fen = Money.num_carry(_total)
         return Money(_yuan, _jiao, _fen)
 
+    def __ge__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) >= Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) >= other
+        else:
+            raise Exception('类型异常')
+
+    def __gt__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) > Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) > other
+        else:
+            raise Exception('类型异常')
+
+    def __le__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) <= Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) <= other
+        else:
+            raise Exception('类型异常')
+
+    def __lt__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) < Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) < other
+        else:
+            raise Exception('类型异常')
+
+    def __eq__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) == Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) == other
+        else:
+            raise Exception('类型异常')
+
+    def __ne__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) != Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) != other
+        else:
+            raise Exception('类型异常')
 
     def __str__(self):
         return 'Money[%d, %d, %d]' % (self.yuan, self.jiao, self.fen)
@@ -88,6 +135,10 @@ class Money(object):
             return (0, num//10, num%10)
         else:
             return (0, 0, num)
+
+    @staticmethod
+    def convert(money):
+        return money.yuan * 100 + money.jiao * 10 + money.fen
 
 if __name__ == '__main__':
     m1 = Money(10, 13, 24)
@@ -108,5 +159,9 @@ if __name__ == '__main__':
     print(Money(2, 27, 56))
 
     print(Money.num_carry(34261))
+
+    print(m1 <= m2)
+    print(Money(10) >= Money(10))
+    print(Money(10) == Money(10))
 
 

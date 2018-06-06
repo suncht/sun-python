@@ -25,7 +25,6 @@ class Money(object):
     #     _total = (self.yuan + other.yuan) * 100 + (self.jiao + other.jiao) * 10 + (self.fen + other.fen)
     #     self.yuan, self.jiao, self.fen = Money.num_carry(_total)
 
-
     def __sub__(self, other):
         """
         相减
@@ -71,9 +70,74 @@ class Money(object):
         _yuan, _jiao, _fen = Money.num_carry(_total)
         return Money(_yuan, _jiao, _fen)
 
+    def __ge__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) >= Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) >= other
+        else:
+            raise Exception('类型异常')
+
+    def __gt__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) > Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) > other
+        else:
+            raise Exception('类型异常')
+
+    def __le__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) <= Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) <= other
+        else:
+            raise Exception('类型异常')
+
+    def __lt__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) < Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) < other
+        else:
+            raise Exception('类型异常')
+
+    def __eq__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) == Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) == other
+        else:
+            raise Exception('类型异常')
+
+    def __ne__(self, other):
+        if type(other) == Money:
+            return Money.convert(self) != Money.convert(other)
+        elif type(other) == int:
+            return Money.convert(self) != other
+        else:
+            raise Exception('类型异常')
 
     def __str__(self):
         return 'Money[%d, %d, %d]' % (self.yuan, self.jiao, self.fen)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __cmp__(self, other):
+        """
+        比较排序
+        :param other:
+        :return:
+        """
+        total_self = Money.convert(self)
+        total_other = Money.convert(other)
+        if total_self > total_other:
+            return 1
+        elif total_self == total_other:
+            return 0
+        else:
+            return -1
 
     @staticmethod
     def num_carry(num):
@@ -83,30 +147,24 @@ class Money(object):
         :return:
         """
         if num >= 100:
-            return (num//100, (num//10)%10, num%10)
+            return (num // 100, (num // 10) % 10, num % 10)
         if num >= 10:
-            return (0, num//10, num%10)
+            return (0, num // 10, num % 10)
         else:
             return (0, 0, num)
+
+    @staticmethod
+    def convert(money):
+        return money.yuan * 100 + money.jiao * 10 + money.fen
+
 
 if __name__ == '__main__':
     m1 = Money(10, 13, 24)
     m2 = Money(3, 19, 58)
-    print(m1 + m2)
-    print(m1 * m2)
-    print(m1 * 20.2)
-    print(m1 - m2)
-    #print(m2 - m1)
-    print(m1 / m2)
-    #print(m1 % m2)
-    m1 += m2
-    m3 = m1 + m2
-    print(id(m1))
-    print(id(m3))
-    print('m1 += m2', m1, id(m1))
-
-    print(Money(2, 27, 56))
-
-    print(Money.num_carry(34261))
-
-
+    m3 = Money(4, 5, 6)
+    m4 = Money(10, 20, 4)
+    list = [m1, m2, m3, m4]
+    print(sorted(list))
+    print(list)
+    list.sort()
+    print(list)
